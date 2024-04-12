@@ -5,9 +5,11 @@ from faker import Faker
 from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import SyncGrant
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 fake = Faker()
+load_dotenv()
 
 
 @app.route('/')
@@ -17,11 +19,11 @@ def index():
 # Add your Twilio credentials
 @app.route('/token')
 def generate_token():
-    TWILIO_ACCOUNT_SID = 'AC62b3d82bbf1a95598fe24a4b6a2b7f4a'
-    TWILIO_SYNC_SERVICE_SID = 'IS644b1e3a1fdf67cf3cdd759689dacd01'
-    TWILIO_API_KEY = 'SKb98de77e6a6da617f01199795475e22f'
-    TWILIO_API_SECRET = '5USzpiG0Ily0oca92a4sBWnJ1NoTah5n'
-
+    SECRET_KEY = os.getenv("MY_SECRET")
+    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_SYNC_SERVICE_SID = os.getenv("TWILIO_SYNC_SERVICE_SID")
+    TWILIO_API_KEY =os.getenv("TWILIO_API_KEY")
+    TWILIO_API_SECRET =os.getenv("TWILIO_API_SECRET")
     username = request.args.get('username', fake.user_name())
 
     # create access token with credentials
